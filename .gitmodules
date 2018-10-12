@@ -1,0 +1,3 @@
+[submodule "AndroidAudioConverter"]
+	path = AndroidAudioConverter
+	url = https://github.com/MeloniZippoProjects/AndroidAudioConverter
