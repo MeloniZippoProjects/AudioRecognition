@@ -3,14 +3,19 @@ package org.melonizippo.audiorecognition;
 import android.app.Activity;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
+
+import com.musicg.wave.Wave;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
+import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
+import cafe.adriel.androidaudioconverter.model.AudioFormat;
 
 public class RecognitionActivity extends Activity
 {
@@ -24,8 +29,25 @@ public class RecognitionActivity extends Activity
     }
     private MediaRecorder mediaRecorder = new MediaRecorder();
     private MediaRecorderState mediaRecorderState;
+    private Path recordFile;
 
-    Button recordButton;
+    private Button recordButton;
+
+
+    private IConvertCallback convertCallback = new IConvertCallback() {
+        @Override
+        public void onSuccess(File convertedFile) {
+            Log.i(LOG_TAG, "Recorded audio succesfully converted");
+            Wave wave = new Wave(convertedFile.getPath());
+        }
+
+        @Override
+        public void onFailure(Exception error) {
+            Log.e(LOG_TAG, "Error converting recorded audio to WAV");
+            error.printStackTrace();
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,6 +78,13 @@ public class RecognitionActivity extends Activity
             mediaRecorderState = MediaRecorderState.PAUSED;
 
             //todo: code for recognition and showing RecognizedSongActivity
+
+            //convert recording in wav PCM 16-bit
+            AndroidAudioConverter.with(this)
+                    .setInputFile(new File(recordFile.toString()))
+                    .setFormat(AudioFormat.WAV)
+                    .setCallback(convertCallback)
+                    .convert();
         }
     }
 
@@ -63,10 +92,10 @@ public class RecognitionActivity extends Activity
     {
         Log.d(LOG_TAG, "Setting up MediaRecorder");
 
-        Path recFile = null;
+        recordFile = null;
         try {
-            recFile = Files.createTempFile("", ".rec");
-            Log.d(LOG_TAG, "Recording in " + recFile.toString());
+            recordFile = Files.createTempFile("recorded_", "." + AudioFormat.M4A.toString());
+            Log.d(LOG_TAG, "Recording in " + recordFile.toString());
         }
         catch(IOException ex)
         {
@@ -77,7 +106,7 @@ public class RecognitionActivity extends Activity
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        mediaRecorder.setOutputFile(recFile.toString());
+        mediaRecorder.setOutputFile(recordFile.toString());
 
         try {
             Log.d(LOG_TAG, "Preparing MediaRecorder");
