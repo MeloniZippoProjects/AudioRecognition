@@ -1,4 +1,4 @@
-package org.melonizippo.audiorecognition;
+package org.melonizippo.audiorecognition.recognition;
 
 import com.musicg.fingerprint.FingerprintSimilarity;
 import com.musicg.fingerprint.FingerprintSimilarityComputer;
