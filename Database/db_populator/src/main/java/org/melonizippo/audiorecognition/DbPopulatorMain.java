@@ -1,16 +1,22 @@
 package org.melonizippo.audiorecognition;
 
-import org.sqlite.SQLiteJDBCLoader;
+import com.musicg.wave.Wave;
+import org.apache.commons.codec.binary.Hex;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class DbPopulatorMain {
 
     public static void main(String[] args)
     {
+        Path wavFilePath = Paths.get(args[0]);
+        Wave wave = new Wave(wavFilePath.toString());
+        byte[] fingerprint = wave.getFingerprint();
 
+        String encoded = new String(Hex.encodeHex(fingerprint));
+
+        System.out.println(encoded);
     }
 
 }
