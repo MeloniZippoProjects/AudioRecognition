@@ -1,3 +1,5 @@
+package org.melonizippo.audiorecognition.demo;
+
 import com.musicg.fingerprint.FingerprintSimilarity;
 import com.musicg.fingerprint.FingerprintSimilarityComputer;
 import com.musicg.wave.Wave;
