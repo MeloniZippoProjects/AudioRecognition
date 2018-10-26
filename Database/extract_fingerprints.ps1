@@ -13,7 +13,7 @@ foreach($file in $files)
     $current++;
 
     $fingerprintGeneratorPath = "./fingerprint_generator.jar";
-    $fingerprintCmd = "java `"$fingerprintGeneratorPath`" `"$($file.FullName)`"";
+    $fingerprintCmd = "java -jar `"$fingerprintGeneratorPath`" `"$($file.FullName)`"";
     $outfile = "$outputFolder/$($file.BaseName).fing.txt";
     Invoke-Expression $fingerprintCmd | Out-File $outfile;
 }
