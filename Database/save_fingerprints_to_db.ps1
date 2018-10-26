@@ -30,7 +30,7 @@ if(-Not $dbExists -Or $overwrite)
         album VARCHAR(255),
         date VARCHAR(255),
         genre VARCHAR(255),
-        cover BLOB)"
+        cover BLOB);"
     Invoke-SqliteQuery -Query $query -DataSource $databasePath
 
     Write-Host "Database created"
@@ -59,7 +59,7 @@ foreach($fingerprint in $fingerprints)
     $metaFile = "$metadataDirectory/$basename.meta.txt";
     if(Test-Path $metaFile)
     {
-        $metadata = ConvertFrom-StringData (Get-Content $metaFile | Select-Object -skip 1 | Out-String);
+        $metadata = ConvertFrom-StringData (Get-Content $metaFile -Encoding UTF8 | Select-Object -skip 1 | Out-String);
         if($null -ne $metadata['title']) {$title = $metadata['title'] }
         $artist = $metadata['artist'];
         $album = $metadata['album'];
