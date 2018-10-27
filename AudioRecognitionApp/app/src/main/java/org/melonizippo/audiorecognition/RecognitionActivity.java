@@ -103,8 +103,8 @@ public class RecognitionActivity extends Activity
         else
         {
             StringBuilder sb = new StringBuilder();
-            sb.append("Title: ").append(result.metadata.Title).append("\n")
-                .append("Author: ").append(result.metadata.Author).append("\n")
+            sb.append("Title: ").append(result.metadata.title).append("\n")
+                .append("Artist: ").append(result.metadata.artist).append("\n")
                 .append("with similarity: ").append(result.similarity);
         }
     }

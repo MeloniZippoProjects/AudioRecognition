@@ -8,6 +8,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.melonizippo.audiorecognition.recognition.Fingerprint;
@@ -61,13 +64,16 @@ public class FingerprintsDatabaseAdapter
         mDbHelper.close();
     }
 
-    private static final String TABLE_FINGERPRINTS = "fingerprints";
+    private static final String TABLE_FINGERPRINTS = "song";
 
-    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_ID = "song_id";
     private static final String COLUMN_FINGERPRINT = "fingerprint";
     private static final String COLUMN_TITLE = "title";
-    private static final String COLUMN_AUTHOR = "author";
-    private static final String COLUMN_YEAR = "year";
+    private static final String COLUMN_ARTIST = "artist";
+    private static final String COLUMN_ALBUM = "album";
+    private static final String COLUMN_YEAR = "date";
+    private static final String COLUMN_GENRE = "genre";
+    private static final String COLUMN_COVER = "cover";
 
     public Map<Integer, Fingerprint> getFingerprints()
     {
@@ -110,7 +116,12 @@ public class FingerprintsDatabaseAdapter
         try
         {
             String sql = String.format("SELECT %s FROM %s WHERE %s",
-                    COLUMN_TITLE + ", " + COLUMN_AUTHOR + ", " + COLUMN_YEAR,
+                    COLUMN_TITLE + ", " +
+                    COLUMN_ARTIST + ", " +
+                    COLUMN_ALBUM + ", " +
+                    COLUMN_YEAR + ", " +
+                    COLUMN_GENRE + ", " +
+                    COLUMN_COVER,
                     TABLE_FINGERPRINTS,
                     COLUMN_ID + " = " + id);
 
@@ -118,9 +129,17 @@ public class FingerprintsDatabaseAdapter
             if(cursor.moveToFirst())
             {
                 AudioMetadata metadata = new AudioMetadata();
-                metadata.Title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
-                metadata.Author = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AUTHOR));
-                metadata.Year = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_YEAR));
+                metadata.title = getStringOrNull(cursor, COLUMN_TITLE);
+                metadata.artist = getStringOrNull(cursor, COLUMN_ARTIST);
+                metadata.album = getStringOrNull(cursor, COLUMN_ALBUM);
+                metadata.year = getStringOrNull(cursor, COLUMN_YEAR);
+                metadata.genre = getStringOrNull(cursor, COLUMN_GENRE);
+
+                byte[] coverBytes = getBytesOrNull(cursor, COLUMN_COVER);
+                if(coverBytes != null)
+                    metadata.cover = BitmapFactory.decodeByteArray(coverBytes, 0, coverBytes.length);
+                else
+                    metadata.cover = null;
 
                 return metadata;
             }
@@ -131,6 +150,40 @@ public class FingerprintsDatabaseAdapter
         {
             Log.e(TAG, "getMetadata >>"+ mSQLException.toString());
             throw mSQLException;
+        }
+    }
+
+    @Nullable
+    private String getStringOrNull(Cursor cursor, String columnName)
+    {
+        try
+        {
+            int columnIndex = cursor.getColumnIndexOrThrow(columnName);
+            if(cursor.isNull(columnIndex))
+                return null;
+            else
+                return cursor.getString(columnIndex);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    @Nullable
+    private byte[] getBytesOrNull(Cursor cursor, String columnName)
+    {
+        try
+        {
+            int columnIndex = cursor.getColumnIndexOrThrow(columnName);
+            if(cursor.isNull(columnIndex))
+                return null;
+            else
+                return cursor.getBlob(columnIndex);
+        }
+        catch (Exception ex)
+        {
+            return null;
         }
     }
 }
