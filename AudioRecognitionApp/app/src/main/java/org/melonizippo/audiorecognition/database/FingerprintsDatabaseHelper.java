@@ -22,7 +22,7 @@ public class FingerprintsDatabaseHelper extends SQLiteOpenHelper
     private final Context context;
     private SQLiteDatabase database;
 
-    private static final String DB_NAME = "audioFingerprints";
+    private static final String DB_NAME = "songs.db";
 
     public FingerprintsDatabaseHelper(Context context)
     {
