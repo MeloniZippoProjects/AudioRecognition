@@ -94,7 +94,7 @@ public class RecognitionActivity extends Activity
     private void recognitionCallback(File convertedFile)
     {
         Fingerprint recordingFingerprint = new Fingerprint(convertedFile.getAbsolutePath());
-        RecognitionResult result = RecognitionService.Recognize(recordingFingerprint, this);
+        RecognitionResult result = RecognitionService.recognize(recordingFingerprint, this);
 
         if(result == null)
         {
@@ -106,6 +106,8 @@ public class RecognitionActivity extends Activity
             sb.append("Title: ").append(result.metadata.title).append("\n")
                 .append("Artist: ").append(result.metadata.artist).append("\n")
                 .append("with similarity: ").append(result.similarity);
+
+            resultText.setText(sb.toString());
         }
     }
 

@@ -17,7 +17,7 @@ public class Fingerprint
 
     public Fingerprint(byte[] bytes)
     {
-        bytes = Arrays.copyOf(bytes, bytes.length);
+        this.bytes = Arrays.copyOf(bytes, bytes.length);
     }
 
     public double GetSimilarity(Fingerprint other)
