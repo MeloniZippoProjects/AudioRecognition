@@ -8,6 +8,16 @@
     android:background="@color/background_idle"
     tools:context=".RecognitionActivity">
 
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="80dp"
+        android:text="Test: recognition result goes here"/>
+
     <!-- Record/cancel button. todo: make round and with icon -->
     <Button
         android:id="@+id/recordButton"

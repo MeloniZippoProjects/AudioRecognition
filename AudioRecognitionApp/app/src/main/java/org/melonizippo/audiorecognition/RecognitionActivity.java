@@ -5,8 +5,11 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.musicg.wave.Wave;
+import org.melonizippo.audiorecognition.recognition.Fingerprint;
+import org.melonizippo.audiorecognition.recognition.RecognitionResult;
+import org.melonizippo.audiorecognition.recognition.RecognitionService;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,22 +35,7 @@ public class RecognitionActivity extends Activity
     private Path recordFile;
 
     private Button recordButton;
-
-
-    private IConvertCallback convertCallback = new IConvertCallback() {
-        @Override
-        public void onSuccess(File convertedFile) {
-            Log.i(LOG_TAG, "Recorded audio succesfully converted");
-            Wave wave = new Wave(convertedFile.getPath());
-        }
-
-        @Override
-        public void onFailure(Exception error) {
-            Log.e(LOG_TAG, "Error converting recorded audio to WAV");
-            error.printStackTrace();
-        }
-    };
-
+    private TextView resultText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,8 +47,9 @@ public class RecognitionActivity extends Activity
 
         recordButton = findViewById(R.id.recordButton);
         recordButton.setOnClickListener(view -> recordButtonListener());
-    }
 
+        resultText = findViewById(R.id.resultText);
+    }
 
     private void recordButtonListener()
     {
@@ -85,6 +74,38 @@ public class RecognitionActivity extends Activity
                     .setFormat(AudioFormat.WAV)
                     .setCallback(convertCallback)
                     .convert();
+        }
+    }
+
+    private IConvertCallback convertCallback = new IConvertCallback() {
+        @Override
+        public void onSuccess(File convertedFile) {
+            Log.i(LOG_TAG, "Recorded audio succesfully converted");
+            recognitionCallback(convertedFile);
+        }
+
+        @Override
+        public void onFailure(Exception error) {
+            Log.e(LOG_TAG, "Error converting recorded audio to WAV");
+            error.printStackTrace();
+        }
+    };
+
+    private void recognitionCallback(File convertedFile)
+    {
+        Fingerprint recordingFingerprint = new Fingerprint(convertedFile.getAbsolutePath());
+        RecognitionResult result = RecognitionService.Recognize(recordingFingerprint, this);
+
+        if(result == null)
+        {
+            resultText.setText("Recognition failed");
+        }
+        else
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Title: ").append(result.metadata.Title).append("\n")
+                .append("Author: ").append(result.metadata.Author).append("\n")
+                .append("with similarity: ").append(result.similarity);
         }
     }
 

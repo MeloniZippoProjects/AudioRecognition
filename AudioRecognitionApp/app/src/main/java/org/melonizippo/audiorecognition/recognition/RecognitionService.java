@@ -1,7 +1,6 @@
 package org.melonizippo.audiorecognition.recognition;
 
 import android.content.Context;
-import android.util.Pair;
 
 import org.melonizippo.audiorecognition.database.AudioMetadata;
 import org.melonizippo.audiorecognition.database.FingerprintsDatabaseAdapter;
