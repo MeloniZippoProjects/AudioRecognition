@@ -21,7 +21,7 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper
             TIMESTAMP_NAME + " TEXT," +
             SONG_ID_NAME + " INTEGER)";
 
-    private static final String SQL_DELETE_TABLE =
+    public static final String SQL_DELETE_TABLE =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public HistoryDatabaseHelper(Context context) {
