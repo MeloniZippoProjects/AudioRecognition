@@ -1,9 +1,12 @@
 package org.melonizippo.audiorecognition;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
 import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
@@ -23,9 +28,45 @@ import cafe.adriel.androidaudioconverter.model.AudioFormat;
 
 public class RecognitionActivity extends Activity
 {
-
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+
+    private static final int REQUEST_PERMISSIONS = 1;
+
+    private static String[] PERMISSIONS = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WAKE_LOCK
+    };
+
+    public static void verifyPermissions(Activity activity) {
+        // Check if we have write permission
+
+        List<String> permissionsRequiredList = new ArrayList<>();
+
+
+        for(String permission : PERMISSIONS)
+        {
+            int granted = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            if (granted != PackageManager.PERMISSION_GRANTED) {
+                // We don't have permission so prompt the user
+                permissionsRequiredList.add(permission);
+            }
+        }
+
+        if(!permissionsRequiredList.isEmpty())
+        {
+            ActivityCompat.requestPermissions(
+                    activity,
+                    permissionsRequiredList.toArray(new String[]{}),
+                    REQUEST_PERMISSIONS
+            );
+        }
+    }
+
+
 
     private enum MediaRecorderState {
         PAUSED,
@@ -50,6 +91,8 @@ public class RecognitionActivity extends Activity
         recordButton.setOnClickListener(view -> recordButtonListener());
 
         resultText = findViewById(R.id.resultText);
+
+        verifyPermissions(this);
     }
 
     private void recordButtonListener()
