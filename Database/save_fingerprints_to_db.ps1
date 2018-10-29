@@ -70,7 +70,7 @@ foreach($fingerprint in $fingerprints)
     $coverFile = "$coversDirectory/$basename.cover.jpg";
     if(Test-Path $coverFile)
     {
-        $cover = (Get-Content $coverFile | Format-Hex | Select-Object -Expand Bytes | ForEach-Object { '{0:x2}' -f $_ }) -join '';
+        $cover = (Format-Hex $coverFile | Select-Object -Expand Bytes | ForEach-Object { '{0:x2}' -f $_ }) -join '';
     }
 
     $insertQuery = "INSERT INTO song (
