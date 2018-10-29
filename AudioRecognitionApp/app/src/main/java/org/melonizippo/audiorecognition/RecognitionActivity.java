@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.melonizippo.audiorecognition.database.HistoryDatabaseAdapter;
+import org.melonizippo.audiorecognition.database.HistoryEntry;
 import org.melonizippo.audiorecognition.recognition.Fingerprint;
 import org.melonizippo.audiorecognition.recognition.RecognitionResult;
 import org.melonizippo.audiorecognition.recognition.RecognitionService;
@@ -19,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,6 +149,11 @@ public class RecognitionActivity extends Activity
         }
         else
         {
+            HistoryEntry historyEntry = new HistoryEntry();
+            historyEntry.songId = result.songId;
+            historyEntry.timestamp = LocalDate.now();
+            HistoryDatabaseAdapter.addEntry(this, historyEntry);
+
             Intent intent = new Intent(RecognitionActivity.this, RecognizedSongActivity.class);
             Bundle b = new Bundle();
             b.putInt("song_id", result.songId);
