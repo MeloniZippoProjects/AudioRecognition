@@ -14,9 +14,17 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+    <ProgressBar
+        android:id="@+id/progressSpinner"
+        android:layout_width="166dp"
+        android:layout_height="173dp"
+        android:visibility="visible"
+        android:indeterminateTint="@color/song_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="80dp"
-        android:text="Test: recognition result goes here"/>
+        app:layout_constraintVertical_bias="0.372" />
 
     <!-- Record/cancel button. todo: make round and with icon -->
     <Button

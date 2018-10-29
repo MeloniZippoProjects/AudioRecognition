@@ -8,8 +8,11 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.melonizippo.audiorecognition.database.HistoryDatabaseAdapter;
 import org.melonizippo.audiorecognition.database.HistoryEntry;
@@ -81,6 +84,7 @@ public class RecognitionActivity extends Activity
 
     private Button recordButton;
     private TextView resultText;
+    private ProgressBar progressSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -94,6 +98,7 @@ public class RecognitionActivity extends Activity
         recordButton.setOnClickListener(view -> recordButtonListener());
 
         resultText = findViewById(R.id.resultText);
+        progressSpinner = findViewById(R.id.progressSpinner);
 
         verifyPermissions(this);
     }
@@ -112,6 +117,7 @@ public class RecognitionActivity extends Activity
             stopRecording();
             recordButton.setText(R.string.start_recording_button);
             mediaRecorderState = MediaRecorderState.PAUSED;
+            progressSpinner.setVisibility(View.VISIBLE);
 
             //todo: code for recognition and showing RecognizedSongActivity
 
@@ -142,6 +148,8 @@ public class RecognitionActivity extends Activity
     {
         Fingerprint recordingFingerprint = new Fingerprint(convertedFile.getAbsolutePath());
         RecognitionResult result = RecognitionService.recognize(recordingFingerprint, this);
+
+        progressSpinner.setVisibility(View.GONE);
 
         if(result == null)
         {
