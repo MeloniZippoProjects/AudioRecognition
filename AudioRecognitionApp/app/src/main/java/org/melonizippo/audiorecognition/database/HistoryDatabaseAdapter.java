@@ -64,6 +64,8 @@ public class HistoryDatabaseAdapter
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         db.execSQL(HistoryDatabaseHelper.SQL_DELETE_TABLE);
+        db.execSQL(HistoryDatabaseHelper.SQL_CREATE_TABLE);
+
         dbHelper.close();
     }
 }

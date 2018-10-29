@@ -15,7 +15,7 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper
     public static final String SONG_ID_NAME = "song_id";
 
 
-    private static final String SQL_CREATE_TABLE =
+    public static final String SQL_CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
             ID_NAME + "INTEGER PRIMARY KEY," +
             TIMESTAMP_NAME + " TEXT," +
