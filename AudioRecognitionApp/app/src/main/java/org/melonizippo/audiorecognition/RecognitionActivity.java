@@ -10,11 +10,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.melonizippo.audiorecognition.database.HistoryDatabaseAdapter;
 import org.melonizippo.audiorecognition.database.HistoryEntry;
@@ -85,7 +82,10 @@ public class RecognitionActivity extends Activity
     private Path recordFile;
 
     private ImageView recordButton;
+    private ImageView historyButton;
     private ProgressBar progressSpinner;
+
+    private View coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -95,12 +95,29 @@ public class RecognitionActivity extends Activity
 
         mediaRecorderState = MediaRecorderState.PAUSED;
 
+        coordinatorLayout = findViewById(R.id.recognitionCoordinatorLayout);
+
         recordButton = findViewById(R.id.recordButton);
         recordButton.setOnClickListener(view -> recordButtonListener());
 
         progressSpinner = findViewById(R.id.progressSpinner);
 
+        historyButton = findViewById(R.id.historyButton);
+        historyButton.setOnClickListener(view -> historyButtonListener());
+
         verifyPermissions(this);
+    }
+
+    private void historyButtonListener() {
+        if(mediaRecorderState == MediaRecorderState.RECORDING)
+        {
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.history_forbidden, Snackbar.LENGTH_SHORT);
+            snackbar.show();
+            return;
+        }
+
+        Intent intent = new Intent(this, HistoryViewActivity.class);
+        startActivity(intent);
     }
 
     private void recordButtonListener()
@@ -153,7 +170,7 @@ public class RecognitionActivity extends Activity
 
         if(result == null)
         {
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.recognitionCoordinatorLayout), R.string.failedRecognition, Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.failedRecognition, Snackbar.LENGTH_SHORT);
             snackbar.show();
         }
         else

@@ -8,4 +8,7 @@
     <string name="hystoryTitle">History</string>
     <string name="unknownDate">No date</string>
     <string name="failedRecognition">Failed to recognize the sample, please try again</string>
+    <string name="rec_button_description">Rec/Stop button</string>
+    <string name="go_to_history_description">Go to Recognition History</string>
+    <string name="history_forbidden">History cannot be opened while recording</string>
 </resources>

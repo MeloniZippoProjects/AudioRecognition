@@ -42,6 +42,7 @@
 
         <!-- Record/cancel button. todo: make round and with icon -->
         <ImageView
+            android:contentDescription="@string/rec_button_description"
             android:id="@+id/recordButton"
             android:layout_width="180dp"
             android:layout_height="180dp"
@@ -54,6 +55,18 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progressSpinner"
             app:layout_constraintVertical_bias="0.796" />
+
+
+        <ImageView
+            android:contentDescription="@string/go_to_history_description"
+            android:id="@+id/historyButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/history"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>
