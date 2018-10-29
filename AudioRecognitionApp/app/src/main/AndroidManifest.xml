@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DatabaseViewActivity" />
+        <activity android:name=".HistoryViewActivity" />
         <activity android:name=".RecognizedSongActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

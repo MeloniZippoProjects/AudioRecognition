@@ -7,8 +7,6 @@ import android.widget.TextView;
 
 import org.melonizippo.audiorecognition.database.FingerprintsDatabaseAdapter;
 import org.melonizippo.audiorecognition.database.SongMetadata;
-import org.melonizippo.audiorecognition.recognition.RecognitionResult;
-import org.melonizippo.audiorecognition.recognition.RecognitionService;
 
 public class RecognizedSongActivity extends AppCompatActivity
 {

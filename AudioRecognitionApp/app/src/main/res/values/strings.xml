@@ -5,4 +5,6 @@
     <string name="unknownTitle">No title</string>
     <string name="unknownArtist">No artist</string>
     <string name="unknownAlbum">No album</string>
+    <string name="hystoryTitle">History</string>
+    <string name="unknownDate">No date</string>
 </resources>
