@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,9 +37,11 @@ public class HistoryDatabaseAdapter
             entry.songId = cursor.getInt(songIdIndex);
             history.add(entry);
         }
-
         cursor.close();
         dbHelper.close();
+
+        Collections.reverse(history);
+
         return history;
     }
 
