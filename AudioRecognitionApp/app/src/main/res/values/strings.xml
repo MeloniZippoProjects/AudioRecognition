@@ -7,4 +7,5 @@
     <string name="unknownAlbum">No album</string>
     <string name="hystoryTitle">History</string>
     <string name="unknownDate">No date</string>
+    <string name="failedRecognition">Failed to recognize the sample, please try again</string>
 </resources>

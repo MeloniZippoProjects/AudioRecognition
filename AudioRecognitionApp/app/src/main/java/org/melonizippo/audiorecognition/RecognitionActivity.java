@@ -153,7 +153,9 @@ public class RecognitionActivity extends Activity
 
         if(result == null)
         {
-            resultText.setText("Recognition failed");
+            Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.failedRecognition), Toast.LENGTH_SHORT);
+            toast.setMargin(50,50);
+            toast.show();
         }
         else
         {
