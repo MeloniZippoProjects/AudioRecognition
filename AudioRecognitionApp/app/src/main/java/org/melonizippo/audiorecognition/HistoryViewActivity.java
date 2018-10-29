@@ -13,6 +13,7 @@ import org.melonizippo.audiorecognition.database.FingerprintsDatabaseAdapter;
 import org.melonizippo.audiorecognition.database.HistoryDatabaseAdapter;
 import org.melonizippo.audiorecognition.database.HistoryEntry;
 
+import java.util.Collections;
 import java.util.List;
 
 public class HistoryViewActivity extends Activity
@@ -77,6 +78,5 @@ public class HistoryViewActivity extends Activity
         b.putInt("song_id", historyEntry.songId);
         intent.putExtras(b);
         startActivity(intent);
-        finish();
     }
 }
