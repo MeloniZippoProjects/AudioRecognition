@@ -45,7 +45,7 @@ public class HistoryDatabaseAdapter
     public static void addEntry(Context context, HistoryEntry entry)
     {
         HistoryDatabaseHelper dbHelper = new HistoryDatabaseHelper(context);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(HistoryDatabaseHelper.TIMESTAMP_NAME, entry.timestamp.toString());
