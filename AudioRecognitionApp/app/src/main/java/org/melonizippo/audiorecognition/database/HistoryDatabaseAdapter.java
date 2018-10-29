@@ -45,12 +45,22 @@ public class HistoryDatabaseAdapter
     public static void addEntry(Context context, HistoryEntry entry)
     {
         HistoryDatabaseHelper dbHelper = new HistoryDatabaseHelper(context);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(HistoryDatabaseHelper.TIMESTAMP_NAME, entry.timestamp.toString());
         values.put(HistoryDatabaseHelper.SONG_ID_NAME, entry.songId);
 
         db.insert(HistoryDatabaseHelper.TABLE_NAME, null, values);
+        dbHelper.close();
+    }
+
+    public static void clearDatabase(Context context)
+    {
+        HistoryDatabaseHelper dbHelper = new HistoryDatabaseHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.execSQL(HistoryDatabaseHelper.SQL_DELETE_TABLE);
+        dbHelper.close();
     }
 }
