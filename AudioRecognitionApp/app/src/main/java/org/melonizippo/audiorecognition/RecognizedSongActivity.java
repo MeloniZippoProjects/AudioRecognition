@@ -22,7 +22,7 @@ public class RecognizedSongActivity extends AppCompatActivity
         Bundle b = getIntent().getExtras();
         if(b != null)
         {
-            int songId = b.getInt("songId");
+            int songId = b.getInt("song_id");
             loadSongMetadata(songId);
         }
     }
