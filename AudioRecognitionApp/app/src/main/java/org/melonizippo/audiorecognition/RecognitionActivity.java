@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +84,7 @@ public class RecognitionActivity extends Activity
     private MediaRecorderState mediaRecorderState;
     private Path recordFile;
 
-    private Button recordButton;
+    private ImageView recordButton;
     private ProgressBar progressSpinner;
 
     @Override
@@ -108,16 +109,16 @@ public class RecognitionActivity extends Activity
         {
             configureMediaRecorder();
             startRecording();
-            recordButton.setText(R.string.stop_recording_button);
+            recordButton.setImageDrawable(getDrawable(R.drawable.stop_circle));
             mediaRecorderState = MediaRecorderState.RECORDING;
         }
         else
         {
             stopRecording();
-            recordButton.setText(R.string.start_recording_button);
             mediaRecorderState = MediaRecorderState.PAUSED;
             progressSpinner.setVisibility(View.VISIBLE);
 
+            recordButton.setImageDrawable(getDrawable(R.drawable.record_rec));
             //todo: code for recognition and showing RecognizedSongActivity
 
             //convert recording in wav PCM 16-bit
