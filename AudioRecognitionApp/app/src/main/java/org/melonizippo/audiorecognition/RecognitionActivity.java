@@ -167,7 +167,7 @@ public class RecognitionActivity extends Activity
             b.putInt("song_id", result.songId);
             intent.putExtras(b);
             startActivity(intent);
-            finish();
+            //finish();
         }
     }
 
