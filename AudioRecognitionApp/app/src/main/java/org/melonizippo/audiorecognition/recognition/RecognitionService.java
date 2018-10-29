@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 
 public class RecognitionService
 {
-    private static final double RECOGNITION_THRESHOLD = 0.5;
+    private static final double RECOGNITION_THRESHOLD = 0.3;
     private static final String LOG_TAG = "RecognitionService";
 
     public static RecognitionResult recognize(Fingerprint referenceFingerprint, Context context)
