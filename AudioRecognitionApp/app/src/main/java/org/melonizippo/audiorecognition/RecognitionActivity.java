@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -83,7 +84,6 @@ public class RecognitionActivity extends Activity
     private Path recordFile;
 
     private Button recordButton;
-    private TextView resultText;
     private ProgressBar progressSpinner;
 
     @Override
@@ -97,7 +97,6 @@ public class RecognitionActivity extends Activity
         recordButton = findViewById(R.id.recordButton);
         recordButton.setOnClickListener(view -> recordButtonListener());
 
-        resultText = findViewById(R.id.resultText);
         progressSpinner = findViewById(R.id.progressSpinner);
 
         verifyPermissions(this);
@@ -153,9 +152,8 @@ public class RecognitionActivity extends Activity
 
         if(result == null)
         {
-            Toast toast = Toast.makeText(getApplicationContext(), getText(R.string.failedRecognition), Toast.LENGTH_SHORT);
-            toast.setMargin(50,50);
-            toast.show();
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.recognitionCoordinatorLayout), R.string.failedRecognition, Snackbar.LENGTH_SHORT);
+            snackbar.show();
         }
         else
         {
