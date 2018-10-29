@@ -49,7 +49,7 @@ public class HistoryViewActivity extends Activity
                 updateView();
                 return true;
             }
-            case R.id.recordButton:
+            case R.id.goRecording:
             {
                 Intent intent = new Intent(HistoryViewActivity.this, RecognitionActivity.class);
                 startActivity(intent);
