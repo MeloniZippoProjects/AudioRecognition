@@ -8,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,17 +18,37 @@ public class FingerprintsDatabaseAdapter
 {
     protected static final String TAG = "DataAdapter";
 
-    private final Context mContext;
     private SQLiteDatabase mDb;
     private FingerprintsDatabaseHelper mDbHelper;
 
-    public FingerprintsDatabaseAdapter(Context context)
+    public static Map<Integer, Fingerprint> getFingerprints(Context context)
     {
-        this.mContext = context;
-        mDbHelper = new FingerprintsDatabaseHelper(mContext);
+        FingerprintsDatabaseAdapter dbAdapter = new FingerprintsDatabaseAdapter(context);
+        dbAdapter.createDatabase();
+        dbAdapter.open();
+        Map<Integer, Fingerprint> fingerprints = dbAdapter.getFingerprints();
+        dbAdapter.close();
+
+        return fingerprints;
     }
 
-    public FingerprintsDatabaseAdapter createDatabase() throws SQLException
+    public static SongMetadata getMetadata(int id, Context context)
+    {
+        FingerprintsDatabaseAdapter dbAdapter = new FingerprintsDatabaseAdapter(context);
+        dbAdapter.createDatabase();
+        dbAdapter.open();
+        SongMetadata fingerprints = dbAdapter.getMetadata(id);
+        dbAdapter.close();
+
+        return fingerprints;
+    }
+
+    private FingerprintsDatabaseAdapter(Context context)
+    {
+        mDbHelper = new FingerprintsDatabaseHelper(context);
+    }
+
+    private FingerprintsDatabaseAdapter createDatabase() throws SQLException
     {
         try
         {
@@ -43,7 +62,7 @@ public class FingerprintsDatabaseAdapter
         return this;
     }
 
-    public FingerprintsDatabaseAdapter open() throws SQLException
+    private FingerprintsDatabaseAdapter open() throws SQLException
     {
         try
         {
@@ -59,7 +78,7 @@ public class FingerprintsDatabaseAdapter
         return this;
     }
 
-    public void close()
+    private void close()
     {
         mDbHelper.close();
     }
@@ -75,7 +94,7 @@ public class FingerprintsDatabaseAdapter
     private static final String COLUMN_GENRE = "genre";
     private static final String COLUMN_COVER = "cover";
 
-    public Map<Integer, Fingerprint> getFingerprints()
+    private Map<Integer, Fingerprint> getFingerprints()
     {
         Cursor fingCursor = getFingerprintCursor();
         int idColumn = fingCursor.getColumnIndexOrThrow(COLUMN_ID);
@@ -111,7 +130,7 @@ public class FingerprintsDatabaseAdapter
         }
     }
 
-    public AudioMetadata getMetadata(int id)
+    private SongMetadata getMetadata(int id)
     {
         try
         {
@@ -128,7 +147,7 @@ public class FingerprintsDatabaseAdapter
             Cursor cursor = mDb.rawQuery(sql, null);
             if(cursor.moveToFirst())
             {
-                AudioMetadata metadata = new AudioMetadata();
+                SongMetadata metadata = new SongMetadata();
                 metadata.title = getStringOrNull(cursor, COLUMN_TITLE);
                 metadata.artist = getStringOrNull(cursor, COLUMN_ARTIST);
                 metadata.album = getStringOrNull(cursor, COLUMN_ALBUM);

@@ -2,7 +2,7 @@ package org.melonizippo.audiorecognition.database;
 
 import android.graphics.Bitmap;
 
-public class AudioMetadata
+public class SongMetadata
 {
     public String title;
     public String artist;

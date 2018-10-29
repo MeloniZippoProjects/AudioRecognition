@@ -1,6 +1,7 @@
 package org.melonizippo.audiorecognition;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,12 +103,8 @@ public class RecognitionActivity extends Activity
         }
         else
         {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Title: ").append(result.metadata.title).append("\n")
-                .append("Artist: ").append(result.metadata.artist).append("\n")
-                .append("with similarity: ").append(result.similarity);
-
-            resultText.setText(sb.toString());
+            Intent intent = new Intent(RecognitionActivity.this, RecognizedSongActivity.class);
+            Bundle b = new Bundle();
         }
     }
 

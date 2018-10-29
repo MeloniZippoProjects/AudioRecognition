@@ -3,7 +3,8 @@ package org.melonizippo.audiorecognition.recognition;
 import android.content.Context;
 import android.util.Log;
 
-import org.melonizippo.audiorecognition.database.AudioMetadata;
+import org.melonizippo.audiorecognition.BuildConfig;
+import org.melonizippo.audiorecognition.database.SongMetadata;
 import org.melonizippo.audiorecognition.database.FingerprintsDatabaseAdapter;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class RecognitionService
 
     public static RecognitionResult recognize(Fingerprint referenceFingerprint, Context context)
     {
-        Map<Integer, Fingerprint> fingerprints = getFingerprints(context);
+        Map<Integer, Fingerprint> fingerprints = FingerprintsDatabaseAdapter.getFingerprints(context);
 
         Map<Integer, Double> similarities = computeSimilarities(referenceFingerprint, fingerprints);
 
@@ -28,9 +29,11 @@ public class RecognitionService
         {
             double similarity = similarities.get(id);
 
-            //Debug logging
-            AudioMetadata metadata = getMetadata(id, context);
-            Log.d(LOG_TAG, "Processed " + metadata.title + " with similarity " + similarity);
+            if(BuildConfig.DEBUG)
+            {
+                SongMetadata metadata = FingerprintsDatabaseAdapter.getMetadata(id, context);
+                Log.d(LOG_TAG, "Processed " + metadata.title + " with similarity " + similarity);
+            }
 
             if(similarity > bestSimilarity)
             {
@@ -45,9 +48,8 @@ public class RecognitionService
         }
         else
         {
-            AudioMetadata metadata = getMetadata(bestId, context);
             RecognitionResult result = new RecognitionResult();
-            result.metadata = metadata;
+            result.songId = bestId;
             result.similarity = bestSimilarity;
 
             return result;
@@ -88,27 +90,5 @@ public class RecognitionService
             Log.d(LOG_TAG, "Future was not ready");
             return null;
         }
-    }
-
-    private static Map<Integer, Fingerprint> getFingerprints(Context context)
-    {
-        FingerprintsDatabaseAdapter dbAdapter = new FingerprintsDatabaseAdapter(context);
-        dbAdapter.createDatabase();
-        dbAdapter.open();
-        Map<Integer, Fingerprint> fingerprints = dbAdapter.getFingerprints();
-        dbAdapter.close();
-
-        return fingerprints;
-    }
-
-    private static AudioMetadata getMetadata(int id, Context context)
-    {
-        FingerprintsDatabaseAdapter dbAdapter = new FingerprintsDatabaseAdapter(context);
-        dbAdapter.createDatabase();
-        dbAdapter.open();
-        AudioMetadata fingerprints = dbAdapter.getMetadata(id);
-        dbAdapter.close();
-
-        return fingerprints;
     }
 }
