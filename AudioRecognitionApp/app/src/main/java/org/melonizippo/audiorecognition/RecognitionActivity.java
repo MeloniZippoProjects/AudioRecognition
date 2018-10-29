@@ -105,6 +105,10 @@ public class RecognitionActivity extends Activity
         {
             Intent intent = new Intent(RecognitionActivity.this, RecognizedSongActivity.class);
             Bundle b = new Bundle();
+            b.putInt("song_id", result.songId);
+            intent.putExtras(b);
+            startActivity(intent);
+            finish();
         }
     }
 
