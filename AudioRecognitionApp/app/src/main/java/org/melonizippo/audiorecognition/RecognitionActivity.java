@@ -17,7 +17,7 @@ import org.melonizippo.audiorecognition.database.HistoryDatabaseAdapter;
 import org.melonizippo.audiorecognition.database.HistoryEntry;
 import org.melonizippo.audiorecognition.recognition.Fingerprint;
 import org.melonizippo.audiorecognition.recognition.RecognitionResult;
-import org.melonizippo.audiorecognition.recognition.RecognitionService;
+import org.melonizippo.audiorecognition.recognition.RecognitionModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -164,7 +164,7 @@ public class RecognitionActivity extends Activity
     private void recognitionCallback(File convertedFile)
     {
         Fingerprint recordingFingerprint = new Fingerprint(convertedFile.getAbsolutePath());
-        RecognitionResult result = RecognitionService.recognize(recordingFingerprint, this);
+        RecognitionResult result = RecognitionModule.recognize(recordingFingerprint, this);
 
         progressSpinner.setVisibility(View.GONE);
 
