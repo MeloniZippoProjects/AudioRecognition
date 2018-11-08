@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Audio Recognition</string>
+    <string name="app_name">What\'s this song?</string>
     <string name="start_recording_button">Record</string>
     <string name="stop_recording_button">Stop</string>
     <string name="unknownTitle">No title</string>
