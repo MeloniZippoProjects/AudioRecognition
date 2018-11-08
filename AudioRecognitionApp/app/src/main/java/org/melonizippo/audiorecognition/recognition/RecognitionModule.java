@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public class RecognitionService
+public class RecognitionModule
 {
     private static final double RECOGNITION_THRESHOLD = 0.3;
-    private static final String LOG_TAG = "RecognitionService";
+    private static final String LOG_TAG = "RecognitionModule";
 
     public static RecognitionResult recognize(Fingerprint referenceFingerprint, Context context)
     {
